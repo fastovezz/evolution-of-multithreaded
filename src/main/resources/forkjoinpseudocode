@@ -1,0 +1,18 @@
+// PSEUDOCODE
+Result solve(Problem problem) {
+    if(problem.size < SEQUENTIAL_THRESHOLD)
+        return resolveSequentially(problem);
+    else {
+        Result left, right;
+        INVOKE-IN-PARALLEL {
+            left = solve(exactLeftHalf(problem));
+            right = solve(exactRightHalf(problem));
+        }
+        return combine(left, right);
+    }
+}
+
+
+
+
+
