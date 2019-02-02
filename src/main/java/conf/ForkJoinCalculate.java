@@ -20,7 +20,8 @@ public class ForkJoinCalculate extends RecursiveTask<Double> {
         ForkJoinCalculate left = new ForkJoinCalculate(start, mid, step, func);
         ForkJoinCalculate right = new ForkJoinCalculate(mid, end, step, func);
         left.fork();
-        double rightRes = right.compute();
+        right.fork();
+        double rightRes = right.join();
         double leftRes = left.join();
         return leftRes + rightRes;
     }
