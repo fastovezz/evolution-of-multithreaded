@@ -4,7 +4,7 @@ package conf;
 import java.util.concurrent.RecursiveTask;
 import java.util.function.Function;
 
-public class ForkJoinCalculate extends RecursiveTask<Double> {
+public class RecursiveTaskCalculate extends RecursiveTask<Double> {
     private final double start;
     private final double end;
     private final double step;
@@ -13,12 +13,12 @@ public class ForkJoinCalculate extends RecursiveTask<Double> {
 
     @Override
     protected Double compute() {
-        if((end - start) / step < SEQUENTIAL_THRESHOLD) {
+        if ((end - start) / step < SEQUENTIAL_THRESHOLD) {
             return sequentialCompute();
         }
         double mid = start + (end - start) / 2.0;
-        ForkJoinCalculate left = new ForkJoinCalculate(start, mid, step, func);
-        ForkJoinCalculate right = new ForkJoinCalculate(mid, end, step, func);
+        RecursiveTaskCalculate left = new RecursiveTaskCalculate(start, mid, step, func);
+        RecursiveTaskCalculate right = new RecursiveTaskCalculate(mid, end, step, func);
         left.fork();
         right.fork();
         double rightRes = right.join();
@@ -31,7 +31,7 @@ public class ForkJoinCalculate extends RecursiveTask<Double> {
         return sequentialCalculate.calculate(start, end, step);
     }
 
-    public ForkJoinCalculate(double start, double end, double step, Function<Double, Double> func) {
+    public RecursiveTaskCalculate(double start, double end, double step, Function<Double, Double> func) {
         this.start = start;
         this.end = end;
         this.step = step;
